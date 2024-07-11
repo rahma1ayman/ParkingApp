@@ -1,7 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:parking_app/onBordingScreens/splashScareen.dart';
-import 'package:parking_app/screens/parking_screen.dart';
 import 'firebase_options.dart';
 
 void main() async {

@@ -4,7 +4,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:parking_app/screens/manager_screen.dart';
 import 'package:parking_app/screens/parking_screen.dart';
-import 'package:parking_app/screens/scanner_screen.dart';
 import 'package:parking_app/screens/register_screen.dart';
 import '../helper/snackBar.dart';
 import '../widgets/custom_button.dart';

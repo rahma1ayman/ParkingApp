@@ -6,14 +6,14 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:parking_app/helper/constants.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 
-class ScannerScreen extends StatefulWidget {
-  const ScannerScreen({super.key, this.updateParent});
+class ScannerPage extends StatefulWidget {
+  const ScannerPage({super.key, this.updateParent});
   final void Function()? updateParent;
   @override
-  State<ScannerScreen> createState() => _ScannerScreenState();
+  State<ScannerPage> createState() => _ScannerPageState();
 }
 
-class _ScannerScreenState extends State<ScannerScreen> {
+class _ScannerPageState extends State<ScannerPage> {
   Barcode? result;
   QRViewController? controller;
   final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');

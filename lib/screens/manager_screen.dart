@@ -37,7 +37,7 @@ class _ManagerScreenState extends State<ManagerScreen> {
           ),
           Offstage(
             offstage: selectedIndex != 1,
-            child: ScannerScreen(updateParent: update),
+            child: ScannerPage(updateParent: update),
           ),
         ],
       ),

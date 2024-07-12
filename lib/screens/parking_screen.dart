@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_dash/flutter_dash.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:parking_app/widgets/Custom_road_design.dart';
+import 'package:parking_app/widgets/custom_area.dart';
+import 'package:parking_app/widgets/custom_button.dart';
 
 class ParkScreen extends StatelessWidget {
   const ParkScreen({super.key});
@@ -18,173 +22,89 @@ class ParkScreen extends StatelessWidget {
             ),
           ),
         ),
+        centerTitle: true,
       ),
-      body: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Column(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              Container(
-                width: 140,
-                height: 110,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(16),
-                  color: const Color(0xffE4E8F1),
-                ),
-                child: Center(
-                  child: Text(
-                    'A 01',
-                    style: GoogleFonts.aBeeZee(
-                      textStyle: const TextStyle(
-                        color: Colors.black,
-                        fontSize: 25,
-                      ),
+      body: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            SizedBox(
+              height: 710,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  const Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      ParkArea(title: 'A 01'),
+                      CustomRoad(),
+                      ParkArea(title: 'A 02'),
+                      CustomRoad(),
+                      ParkArea(title: 'A 03'),
+                      CustomRoad(),
+                      ParkArea(title: 'A 04'),
+                    ],
+                  ),
+                  SizedBox(
+                    width: 20,
+                    child: Stack(
+                      children: [
+                        Container(
+                          height: double.infinity,
+                          width: 20,
+                          color: Colors.black,
+                        ),
+                        const Center(
+                          child: Dash(
+                            direction: Axis.vertical,
+                            dashColor: Colors.white,
+                            length: 710,
+                            dashThickness: 2,
+                          ),
+                        ),
+                      ],
                     ),
                   ),
-                ),
-              ),
-              Container(
-                width: 140,
-                height: 110,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(16),
-                  color: const Color(0xffE4E8F1),
-                ),
-                child: Center(
-                  child: Text(
-                    'A 01',
-                    style: GoogleFonts.aBeeZee(
-                      textStyle: const TextStyle(
-                        color: Colors.black,
-                        fontSize: 25,
-                      ),
-                    ),
+                  const Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      ParkArea(title: 'A 05'),
+                      CustomRoad(),
+                      ParkArea(title: 'A 06'),
+                      CustomRoad(),
+                      ParkArea(title: 'A 07'),
+                      CustomRoad(),
+                      ParkArea(title: 'A 08'),
+                    ],
                   ),
-                ),
+                ],
               ),
-              Container(
-                width: 140,
-                height: 110,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(16),
-                  color: const Color(0xffE4E8F1),
-                ),
-                child: Center(
-                  child: Text(
-                    'A 01',
-                    style: GoogleFonts.aBeeZee(
-                      textStyle: const TextStyle(
-                        color: Colors.black,
-                        fontSize: 25,
-                      ),
-                    ),
+            ),
+            SizedBox(
+              width: 500,
+              height: 20,
+              child: Stack(
+                children: [
+                  Container(
+                    height: 20,
+                    width: 500,
+                    color: Colors.black,
                   ),
-                ),
-              ),
-              Container(
-                width: 140,
-                height: 110,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(16),
-                  color: const Color(0xffE4E8F1),
-                ),
-                child: Center(
-                  child: Text(
-                    'A 01',
-                    style: GoogleFonts.aBeeZee(
-                      textStyle: const TextStyle(
-                        color: Colors.black,
-                        fontSize: 25,
-                      ),
+                  const Center(
+                    child: Dash(
+                      direction: Axis.horizontal,
+                      dashColor: Colors.white,
+                      length: 390,
+                      dashThickness: 2,
                     ),
-                  ),
-                ),
+                  )
+                ],
               ),
-            ],
-          ),
-          Column(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              Container(
-                width: 140,
-                height: 110,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(16),
-                  color: const Color(0xffE4E8F1),
-                ),
-                child: Center(
-                  child: Text(
-                    'A 01',
-                    style: GoogleFonts.aBeeZee(
-                      textStyle: const TextStyle(
-                        color: Colors.black,
-                        fontSize: 25,
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-              Container(
-                width: 140,
-                height: 110,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(16),
-                  color: const Color(0xffE4E8F1),
-                ),
-                child: Center(
-                  child: Text(
-                    'A 01',
-                    style: GoogleFonts.aBeeZee(
-                      textStyle: const TextStyle(
-                        color: Colors.black,
-                        fontSize: 25,
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-              Container(
-                width: 140,
-                height: 110,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(16),
-                  color: const Color(0xffE4E8F1),
-                ),
-                child: Center(
-                  child: Text(
-                    'A 01',
-                    style: GoogleFonts.aBeeZee(
-                      textStyle: const TextStyle(
-                        color: Colors.black,
-                        fontSize: 25,
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-              Container(
-                width: 140,
-                height: 110,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(16),
-                  color: const Color(0xffE4E8F1),
-                ),
-                child: Center(
-                  child: Text(
-                    'A 01',
-                    style: GoogleFonts.aBeeZee(
-                      textStyle: const TextStyle(
-                        color: Colors.black,
-                        fontSize: 25,
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ],
+            ),
+            CustomButton(title: 'Continue'),
+          ],
+        ),
       ),
     );
   }

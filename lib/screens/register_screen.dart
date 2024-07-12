@@ -1,7 +1,10 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
+import 'package:parking_app/helper/constants.dart';
+import 'package:parking_app/screens/home_screen.dart';
 import '../helper/snackBar.dart';
 import '../widgets/custom_button.dart';
 import '../widgets/custom_text_field.dart';
@@ -98,7 +101,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       try {
                         await registerUser();
                         showSnackBar(context, 'Signed Up Successfully');
-                        Navigator.pop(context);
+                        await users.add({
+                          'email': email,
+                        });
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const HomeScreen(),
+                          ),
+                        );
                       } on FirebaseAuthException catch (e) {
                         if (e.code == 'weak-password') {
                           showSnackBar(context, 'Weak Password');

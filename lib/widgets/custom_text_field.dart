@@ -3,17 +3,18 @@ import 'package:flutter/material.dart';
 import '../helper/constants.dart';
 
 class CustomTextField extends StatelessWidget {
-  CustomTextField({
-    super.key,
-    required this.title,
-    required this.icon,
-    this.onChanged,
-    required this.controller,
-  });
+  CustomTextField(
+      {super.key,
+      required this.title,
+      required this.icon,
+      this.onChanged,
+      this.controller,
+      this.onSubmitted});
   String? title;
   IconData icon;
   Function(String)? onChanged;
-  TextEditingController controller = TextEditingController();
+  Function(String)? onSubmitted;
+  TextEditingController? controller = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return TextFormField(
@@ -25,6 +26,7 @@ class CustomTextField extends StatelessWidget {
       },
       controller: controller,
       onChanged: onChanged,
+      onFieldSubmitted: onSubmitted,
       decoration: InputDecoration(
         hintText: title,
         enabledBorder: OutlineInputBorder(

@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
+import 'package:parking_app/screens/home_screen.dart';
 import 'package:parking_app/screens/manager_screen.dart';
 import 'package:parking_app/screens/parking_screen.dart';
 import 'package:parking_app/screens/register_screen.dart';
@@ -115,7 +116,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => const ParkScreen(),
+                              builder: (context) => const HomeScreen(),
                             ),
                           );
                         }

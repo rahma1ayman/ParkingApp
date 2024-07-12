@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:parking_app/screens/scanner_screen.dart';
 
-import '../helper/navBar.dart';
+import '../widgets/navBar.dart';
 import 'controle_screen.dart';
 
 class ManagerScreen extends StatefulWidget {

@@ -44,7 +44,8 @@ dependencies:
   lottie: ^3.1.2
   introduction_screen: ^3.1.14
   qr_code_scanner: ^1.0.1
-  #cloud_firestore: ^4.17.5
+  flutter_dash: ^1.0.0
+  cloud_firestore: ^4.17.5
 
 
 dev_dependencies:

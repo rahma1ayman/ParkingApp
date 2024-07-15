@@ -11,21 +11,7 @@ class TicketScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      // appBar: AppBar(
-      //   backgroundColor: Colors.white,
-      //   title: Text(
-      //     'Parking Ticket',
-      //     style: GoogleFonts.aBeeZee(
-      //       textStyle: const TextStyle(
-      //         color: Colors.black,
-      //         fontSize: 26,
-      //         fontWeight: FontWeight.w600,
-      //       ),
-      //     ),
-      //   ),
-      //   centerTitle: true,
-      // ),
-      body: GenerateScreen(),
+      body: GenerateQR(),
       // body: Column(
       //   children: [
       //     // QrImageView(

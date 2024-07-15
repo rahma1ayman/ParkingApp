@@ -1,54 +1,57 @@
-import 'package:barcode_scan2/gen/protos/protos.pb.dart';
-import 'package:barcode_scan2/platform_wrapper.dart';
+import 'package:barcode_scan2/barcode_scan2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class ScannerView extends StatefulWidget {
-  const ScannerView({super.key, required this.updateParent});
-
+  ScannerView({super.key, required this.updateParent});
+  void Function() updateParent;
   @override
   State<ScannerView> createState() => _ScannerViewState();
-  final void Function()? updateParent;
 }
 
 class _ScannerViewState extends State<ScannerView> {
+  String result = "";
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: const Text("Scanner"),
+      ),
       body: Center(
-        child: ElevatedButton(
-          onPressed: () {
-            scan();
-          },
-          style: ElevatedButton.styleFrom(
-            backgroundColor: Colors.deepPurple,
-            textStyle: const TextStyle(
-                color: Colors.white,
-                fontSize: 18,
-                fontFamily: 'Roboto',
-                fontWeight: FontWeight.w700),
-            side: const BorderSide(
-                color: Colors.black12,
-                style: BorderStyle.solid,
-                // strokeAlign: StrokeAlign.outside,
-                width: 3),
-            fixedSize: const Size(150, 40),
-            elevation: 7,
-          ),
-          child: const Text("Scan"),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(result), // Display the scanned result (optional)
+            ElevatedButton(
+              onPressed: _scanBarcode, // Allow manual scanning if needed
+              child: const Text("Scan QR Code"),
+            ),
+          ],
         ),
       ),
     );
   }
 
-  Future scan() async {
-    String result = "";
+  Future<void> _scanBarcode() async {
     try {
-      ScanResult qr = (await BarcodeScanner.scan()) as ScanResult;
+      ScanResult qr = await BarcodeScanner.scan();
       setState(() {
         result = qr.rawContent;
       });
+
+      // Extract ID from scanned content (replace with your logic)
+      String id = extractIdFromScannedContent(result);
+
+      // Display or handle data based on the extracted ID (replace with your logic)
+      if (id.isNotEmpty) {
+        // Show data based on the extracted ID (e.g., using a dialog or another view)
+        _showDataDialog(id);
+      } else {
+        // Handle case where no ID is found
+        setState(() {
+          result = "No ID found in QR Code";
+        });
+      }
     } on PlatformException catch (e) {
       if (e.code == BarcodeScanner.cameraAccessDenied) {
         setState(() {
@@ -68,75 +71,36 @@ class _ScannerViewState extends State<ScannerView> {
         result = "Unknown Error $e";
       });
     }
-    if (result != "Grant Camera Permission" &&
-        result != "No QR Code Scanned" &&
-        result != "" &&
-        !result.contains("Unknown Error")) {
-      _showMyDialog(result);
+  }
+
+  // Replace this with your logic to extract the ID from the scanned content
+  String extractIdFromScannedContent(String scannedContent) {
+    // Your logic to parse the scanned content and extract the ID
+    // This is a placeholder, replace with your actual implementation
+    if (scannedContent.startsWith("ID:")) {
+      return scannedContent
+          .substring(3)
+          .trim(); // Assuming ID starts with "ID:"
+    } else {
+      return "";
     }
   }
 
-  Future<void> _showMyDialog(String result) async {
+  Future<void> _showDataDialog(String id) async {
     return showDialog<void>(
       context: context,
-      barrierDismissible: false, // user must tap button!
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text("Result : "),
+          title: const Text("Scanned Data"),
           content: SingleChildScrollView(
-            child: Text(result),
+            child: Text("ID: $id"), // Display the extracted ID
           ),
-          actions: result.contains("http") == false
-              ? <Widget>[
-                  TextButton(
-                    child: const Text(
-                      'OK',
-                      style: TextStyle(
-                        color: Colors.deepPurple,
-                        fontSize: 13,
-                        fontFamily: 'Roboto',
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ),
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    },
-                  ),
-                ]
-              : <Widget>[
-                  TextButton(
-                    child: const Text(
-                      'OK',
-                      style: TextStyle(
-                        color: Colors.deepPurple,
-                        fontSize: 13,
-                        fontFamily: 'Roboto',
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ),
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    },
-                  ),
-                  TextButton(
-                    child: const Text(
-                      'OPEN',
-                      style: TextStyle(
-                        color: Colors.deepPurple,
-                        fontSize: 13,
-                        fontFamily: 'Roboto',
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ),
-                    onPressed: () async {
-                      if (await canLaunchUrl(Uri.parse(result))) {
-                        await launchUrl(Uri.parse(result),
-                            mode: LaunchMode.externalApplication);
-                      }
-                      Navigator.of(context).pop();
-                    },
-                  ),
-                ],
+          actions: <Widget>[
+            TextButton(
+              child: const Text('OK'),
+              onPressed: () => Navigator.of(context).pop(),
+            ),
+          ],
         );
       },
     );

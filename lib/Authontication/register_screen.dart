@@ -4,7 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:parking_app/helper/constants.dart';
-import 'package:parking_app/screens/home_screen.dart';
+import 'package:parking_app/User/home_screen.dart';
+import 'package:parking_app/Authontication/login_screen.dart';
 import '../helper/snackBar.dart';
 import '../widgets/custom_button.dart';
 import '../widgets/custom_text_field.dart';
@@ -65,6 +66,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 ),
                 CustomTextField(
                   title: 'Username',
+                  isObscure: false,
                   icon: Icons.person,
                   controller: userController,
                 ),
@@ -75,6 +77,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   onChanged: (data) {
                     email = data;
                   },
+                  isObscure: false,
                   title: 'Email',
                   icon: Icons.email,
                   controller: emailController,
@@ -86,7 +89,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   onChanged: (data) {
                     password = data;
                   },
+                  isObscure: isObscure,
                   title: 'Password',
+                  prefixIcon:
+                      isObscure ? Icons.visibility_off : Icons.visibility,
+                  onPressed: () {
+                    setState(() {
+                      isObscure = !isObscure;
+                    });
+                  },
                   icon: Icons.password,
                   controller: passwordController,
                 ),
@@ -100,14 +111,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       setState(() {});
                       try {
                         await registerUser();
-                        showSnackBar(context, 'Signed Up Successfully');
-                        await users.add({
-                          'email': email,
-                        });
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => const HomeScreen(),
+                            builder: (context) => const LoginScreen(),
                           ),
                         );
                       } on FirebaseAuthException catch (e) {

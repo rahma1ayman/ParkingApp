@@ -1,11 +1,12 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
-import 'package:parking_app/screens/home_screen.dart';
-import 'package:parking_app/screens/manager_screen.dart';
-import 'package:parking_app/screens/parking_screen.dart';
-import 'package:parking_app/screens/register_screen.dart';
+import 'package:parking_app/User/home_screen.dart';
+import 'package:parking_app/Manager/manager_screen.dart';
+import 'package:parking_app/Authontication/register_screen.dart';
+import '../helper/constants.dart';
 import '../helper/snackBar.dart';
 import '../widgets/custom_button.dart';
 import '../widgets/custom_text_field.dart';
@@ -79,6 +80,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   onChanged: (data) {
                     email = data;
                   },
+                  isObscure: false,
                   title: 'Email',
                   icon: Icons.email,
                   controller: emailController,
@@ -90,9 +92,17 @@ class _LoginScreenState extends State<LoginScreen> {
                   onChanged: (data) {
                     password = data;
                   },
+                  isObscure: isObscure,
                   title: 'Password',
-                  icon: Icons.password,
+                  prefixIcon:
+                      isObscure ? Icons.visibility_off : Icons.visibility,
                   controller: passwordController,
+                  onPressed: () {
+                    setState(() {
+                      isObscure = !isObscure;
+                    });
+                  },
+                  icon: Icons.password,
                 ),
                 const SizedBox(
                   height: 35,
@@ -103,8 +113,11 @@ class _LoginScreenState extends State<LoginScreen> {
                       isLoading = true;
                       setState(() {});
                       try {
-                        await loginUser();
-                        showSnackBar(context, 'Signed in Successfully');
+                        final userCredential = await FirebaseAuth.instance
+                            .signInWithEmailAndPassword(
+                          email: email!,
+                          password: password!,
+                        );
                         if (email!.contains('admin')) {
                           Navigator.push(
                             context,
@@ -113,6 +126,13 @@ class _LoginScreenState extends State<LoginScreen> {
                             ),
                           );
                         } else {
+                          ID = userCredential.user!.uid;
+                          userDoc = FirebaseFirestore.instance
+                              .collection('users')
+                              .doc(ID);
+                          await userDoc.set({
+                            'email': email,
+                          });
                           Navigator.push(
                             context,
                             MaterialPageRoute(
@@ -120,6 +140,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             ),
                           );
                         }
+                        showSnackBar(context, 'Signed in Successfully');
                       } on FirebaseAuthException catch (e) {
                         if (e.code == 'user-not-found') {
                           showSnackBar(
@@ -174,11 +195,11 @@ class _LoginScreenState extends State<LoginScreen> {
       ),
     );
   }
-
-  Future<void> loginUser() async {
-    final credential = await FirebaseAuth.instance.signInWithEmailAndPassword(
-      email: email!,
-      password: password!,
-    );
-  }
+  //
+  // Future<void> loginUser() async {
+  //   final credential = await FirebaseAuth.instance.signInWithEmailAndPassword(
+  //     email: email!,
+  //     password: password!,
+  //   );
+  // }
 }

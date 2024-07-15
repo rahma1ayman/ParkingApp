@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:parking_app/helper/constants.dart';
 
 void showSnackBar(BuildContext context, String message) {
   ScaffoldMessenger.of(context).showSnackBar(
@@ -7,7 +8,7 @@ void showSnackBar(BuildContext context, String message) {
         message,
         style: const TextStyle(fontSize: 18),
       ),
-      backgroundColor: const Color(0xff9AA7F4),
+      backgroundColor: Color(secondaryColor),
     ),
   );
 }

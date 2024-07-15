@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:introduction_screen/introduction_screen.dart';
-import 'package:parking_app/screens/login_screen.dart';
+import 'package:parking_app/Authontication/login_screen.dart';
 
 class OnBoardingPage extends StatefulWidget {
   const OnBoardingPage({super.key});

@@ -1,3 +1,6 @@
+import 'dart:ui';
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../helper/constants.dart';
@@ -9,9 +12,15 @@ class CustomTextField extends StatelessWidget {
       required this.icon,
       this.onChanged,
       this.controller,
-      this.onSubmitted});
+      this.onSubmitted,
+      this.onPressed,
+      this.prefixIcon,
+      required this.isObscure});
   String? title;
   IconData icon;
+  IconData? prefixIcon;
+  VoidCallback? onPressed;
+  bool isObscure;
   Function(String)? onChanged;
   Function(String)? onSubmitted;
   TextEditingController? controller = TextEditingController();
@@ -25,6 +34,7 @@ class CustomTextField extends StatelessWidget {
         return null;
       },
       controller: controller,
+      obscureText: isObscure,
       onChanged: onChanged,
       onFieldSubmitted: onSubmitted,
       decoration: InputDecoration(
@@ -41,6 +51,10 @@ class CustomTextField extends StatelessWidget {
         ),
         prefixIcon: Icon(icon),
         prefixIconColor: Color(secondaryColor),
+        suffixIcon: IconButton(
+          icon: Icon(prefixIcon),
+          onPressed: onPressed,
+        ),
       ),
     );
   }

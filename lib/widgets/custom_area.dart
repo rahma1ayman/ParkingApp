@@ -6,10 +6,12 @@ class ParkArea extends StatefulWidget {
       {super.key,
       required this.title,
       required this.isSelected,
-      required this.onTap});
+      required this.onTap,
+      required this.initial});
   final String title;
   final bool isSelected;
   final VoidCallback onTap;
+  final bool initial;
 
   @override
   State<ParkArea> createState() => _ParkAreaState();
@@ -24,7 +26,11 @@ class _ParkAreaState extends State<ParkArea> {
         width: 140,
         height: 110,
         decoration: BoxDecoration(
-          color: widget.isSelected ? Colors.red : const Color(0xffE4E8F1),
+          color: widget.initial
+              ? Colors.red
+              : widget.isSelected
+                  ? Colors.green
+                  : const Color(0xffE4E8F1),
           borderRadius: BorderRadius.circular(16),
         ),
         child: Center(

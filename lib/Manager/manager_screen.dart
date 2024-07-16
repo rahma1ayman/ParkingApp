@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:parking_app/Manager/scanner_page.dart';
+import 'package:parking_app/Manager/scanner_screen.dart';
 
 import '../widgets/navBar.dart';
 import 'controle_screen.dart';
@@ -37,7 +38,7 @@ class _ManagerScreenState extends State<ManagerScreen> {
           ),
           Offstage(
             offstage: selectedIndex != 1,
-            child: ScannerView(updateParent: update),
+            child: ScannerPage(updateParent: update),
           ),
         ],
       ),

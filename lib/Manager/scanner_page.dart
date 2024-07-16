@@ -1,16 +1,25 @@
-import 'package:barcode_scan2/barcode_scan2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:qr_code_scanner/qr_code_scanner.dart';
 
 class ScannerView extends StatefulWidget {
-  ScannerView({super.key, required this.updateParent});
-  void Function() updateParent;
+  const ScannerView({super.key});
+
   @override
   State<ScannerView> createState() => _ScannerViewState();
 }
 
 class _ScannerViewState extends State<ScannerView> {
+  QRViewController? controller;
+  final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
   String result = "";
+
+  @override
+  void dispose() {
+    controller?.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -18,72 +27,50 @@ class _ScannerViewState extends State<ScannerView> {
         title: const Text("Scanner"),
       ),
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(result), // Display the scanned result (optional)
-            ElevatedButton(
-              onPressed: _scanBarcode, // Allow manual scanning if needed
-              child: const Text("Scan QR Code"),
-            ),
-          ],
+        child: QRView(
+          key: qrKey,
+          onQRViewCreated: _onQRViewCreated,
+          overlay: QrScannerOverlayShape(
+            borderColor: Colors.white,
+            borderRadius: 10,
+            borderWidth: 10,
+            cutOutSize: MediaQuery.of(context).size.width * 0.8,
+          ),
         ),
+      ),
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: _clearResult,
+        label: const Text('Clear Result'),
+        icon: const Icon(Icons.clear),
       ),
     );
   }
 
-  Future<void> _scanBarcode() async {
-    try {
-      ScanResult qr = await BarcodeScanner.scan();
+  void _onQRViewCreated(QRViewController controller) {
+    this.controller = controller;
+    controller.scannedDataStream.listen((scanData) {
       setState(() {
-        result = qr.rawContent;
-      });
-
-      // Extract ID from scanned content (replace with your logic)
-      String id = extractIdFromScannedContent(result);
-
-      // Display or handle data based on the extracted ID (replace with your logic)
-      if (id.isNotEmpty) {
-        // Show data based on the extracted ID (e.g., using a dialog or another view)
+        result = scanData.code!;
+        // Process the scanned data (extract ID)
+        String id = extractIdFromScannedContent(result);
         _showDataDialog(id);
-      } else {
-        // Handle case where no ID is found
-        setState(() {
-          result = "No ID found in QR Code";
-        });
-      }
-    } on PlatformException catch (e) {
-      if (e.code == BarcodeScanner.cameraAccessDenied) {
-        setState(() {
-          result = "Grant Camera Permission";
-        });
-      } else {
-        setState(() {
-          result = "Unknown Error $e";
-        });
-      }
-    } on FormatException {
-      setState(() {
-        result = "No QR Code Scanned";
       });
-    } catch (e) {
-      setState(() {
-        result = "Unknown Error $e";
-      });
-    }
+    });
+  }
+
+  void _clearResult() {
+    setState(() {
+      result = "";
+    });
   }
 
   // Replace this with your logic to extract the ID from the scanned content
   String extractIdFromScannedContent(String scannedContent) {
-    // Your logic to parse the scanned content and extract the ID
-    // This is a placeholder, replace with your actual implementation
-    if (scannedContent.startsWith("ID:")) {
-      return scannedContent
-          .substring(3)
-          .trim(); // Assuming ID starts with "ID:"
-    } else {
-      return "";
+    if (scannedContent.isNotEmpty) {
+      // Assuming your ID starts with "ID:" (replace with your actual prefix)
+      return scannedContent;
     }
+    return "";
   }
 
   Future<void> _showDataDialog(String id) async {

@@ -12,7 +12,7 @@ class GenerateQR extends StatefulWidget {
 
 class _GenerateQRState extends State<GenerateQR> {
   final GlobalKey globalKey = GlobalKey();
-  String data = ID; // Assuming ID is defined in constants.dart
+  String data = ''; // Assuming ID is defined in constants.dart
 
   @override
   void initState() {

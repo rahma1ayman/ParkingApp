@@ -1,5 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:parking_app/helper/notifications.dart';
 import 'package:parking_app/onBordingScreens/splashScareen.dart';
 import 'firebase_options.dart';
 
@@ -9,6 +10,7 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   runApp(const ParkingApp());
+  LocalNotificationService.init();
 }
 
 class ParkingApp extends StatelessWidget {

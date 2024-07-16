@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'package:parking_app/helper/load_data.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
+
+import '../helper/constants.dart';
 
 class ScannerView extends StatefulWidget {
   const ScannerView({super.key});
@@ -49,11 +51,12 @@ class _ScannerViewState extends State<ScannerView> {
   void _onQRViewCreated(QRViewController controller) {
     this.controller = controller;
     controller.scannedDataStream.listen((scanData) {
-      setState(() {
+      setState(() async {
         result = scanData.code!;
         // Process the scanned data (extract ID)
         String id = extractIdFromScannedContent(result);
-        _showDataDialog(id);
+        controller.dispose();
+        await _showDataDialog(id);
       });
     });
   }
@@ -64,10 +67,8 @@ class _ScannerViewState extends State<ScannerView> {
     });
   }
 
-  // Replace this with your logic to extract the ID from the scanned content
   String extractIdFromScannedContent(String scannedContent) {
     if (scannedContent.isNotEmpty) {
-      // Assuming your ID starts with "ID:" (replace with your actual prefix)
       return scannedContent;
     }
     return "";
@@ -78,16 +79,22 @@ class _ScannerViewState extends State<ScannerView> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text("Scanned Data"),
+          title: const Text("Ticket Data"),
           content: SingleChildScrollView(
-            child: Text("ID: $id"), // Display the extracted ID
+            child: loadData(users, id), // Display the extracted ID
           ),
           actions: <Widget>[
             TextButton(
               child: const Text('OK'),
-              onPressed: () => Navigator.of(context).pop(),
+              onPressed: () => {
+                Navigator.of(context).pop(),
+                Navigator.of(context).pop(),
+              },
             ),
           ],
+          clipBehavior: Clip.antiAlias, // Optional: improve rendering quality
+          insetPadding: const EdgeInsets.symmetric(
+              horizontal: 20.0, vertical: 50.0), // Adjust inset padding
         );
       },
     );

@@ -5,9 +5,9 @@ import 'package:parking_app/helper/snackBar.dart';
 import 'constants.dart';
 
 FutureBuilder<DocumentSnapshot<Object?>> loadData(
-    CollectionReference<Object?> users) {
+    CollectionReference<Object?> users, String id) {
   return FutureBuilder<DocumentSnapshot>(
-    future: users.doc(ID).get(),
+    future: users.doc(id).get(),
     builder: (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
       if (snapshot.hasError) {
         showSnackBar(context, 'Something Error');
@@ -31,48 +31,64 @@ FutureBuilder<DocumentSnapshot<Object?>> loadData(
           children: [
             ListTile(
               title: const Text(
-                'Full Name',
+                'Full Name:',
                 style: TextStyle(
                     color: Colors.black,
-                    fontSize: 16,
-                    fontWeight: FontWeight.w600),
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold),
               ),
               trailing: Text(
                 '${data['full_name']}',
                 style: const TextStyle(
-                    color: Colors.black,
+                    color: Colors.black45,
                     fontSize: 16,
                     fontWeight: FontWeight.w600),
               ),
             ),
             ListTile(
               title: const Text(
-                'Phone Number',
+                'Phone Number:',
                 style: TextStyle(
                     color: Colors.black,
-                    fontSize: 16,
-                    fontWeight: FontWeight.w600),
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold),
               ),
               trailing: Text(
                 '${data['phone_number']}',
                 style: const TextStyle(
-                    color: Colors.black,
+                    color: Colors.black45,
                     fontSize: 16,
                     fontWeight: FontWeight.w600),
               ),
             ),
             ListTile(
               title: const Text(
-                'Vehicle Number',
+                'Vehicle Number:',
                 style: TextStyle(
                     color: Colors.black,
-                    fontSize: 16,
-                    fontWeight: FontWeight.w600),
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold),
               ),
               trailing: Text(
                 '${data['vehicle_number']}',
                 style: const TextStyle(
+                    color: Colors.black45,
+                    fontSize: 16,
+                    fontWeight: FontWeight.w600),
+              ),
+            ),
+            ListTile(
+              title: const Text(
+                'Parking Spot:',
+                style: TextStyle(
                     color: Colors.black,
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold),
+              ),
+              trailing: Text(
+                '${data['parking_spot']}',
+                style: const TextStyle(
+                    color: Colors.black45,
                     fontSize: 16,
                     fontWeight: FontWeight.w600),
               ),
@@ -80,7 +96,11 @@ FutureBuilder<DocumentSnapshot<Object?>> loadData(
           ],
         );
       }
-      return const CircularProgressIndicator();
+      return const SizedBox(
+        width: 50,
+        height: 50,
+        child: CircularProgressIndicator(),
+      );
     },
   );
 }

@@ -8,7 +8,7 @@ class QRCodeSender extends StatefulWidget {
 
 class _QRCodeSenderState extends State<QRCodeSender> {
   final String espUrl =
-      'http://<ESP_IP_ADDRESS>'; // Replace with your ESP's IP address
+      'http://192.168.197.209'; // Replace with your ESP's IP address
   final TextEditingController _controller = TextEditingController();
   String _response = '';
 
@@ -27,6 +27,7 @@ class _QRCodeSenderState extends State<QRCodeSender> {
     } catch (e) {
       setState(() {
         _response = 'Error: $e';
+        print(_response);
       });
     }
   }
